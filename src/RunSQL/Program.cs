@@ -1,20 +1,16 @@
-﻿using System;
-using RunSQL.Services;
+﻿using Avalonia;
+using Avalonia.Logging.Serilog;
 
 namespace RunSQL
 {
     class Program
     {
-        private static readonly SqliteService SqliteService = new SqliteService();
+        public static void Main(string[] args) =>
+            BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
 
-        public static void Main()
-        {
-            Console.WriteLine($"SQLite version: {SqliteService.GetVersion()}");
-
-            var connectionString = $"URI=file:{Constants.DbPath}";
-            var names = SqliteService.GetTableNames(connectionString);
-            foreach (var name in names)
-                Console.WriteLine(name);
-        }
+        public static AppBuilder BuildAvaloniaApp() =>
+            AppBuilder.Configure<App>()
+                .UsePlatformDetect()
+                .LogToDebug();
     }
 }

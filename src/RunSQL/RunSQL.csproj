@@ -6,7 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.9.9" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.9" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.9.9" />
         <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="**\*.xaml.cs">
+            <DependentUpon>%(Filename)</DependentUpon>
+        </Compile>
+        <AvaloniaResource Include="**\*.xaml">
+            <SubType>Designer</SubType>
+        </AvaloniaResource>
     </ItemGroup>
 
     <ItemGroup>

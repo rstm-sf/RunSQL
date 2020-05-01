@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
@@ -7,6 +8,8 @@ namespace RunSQL.Services
 {
     internal class SqliteService
     {
+        private const string sqliteSequence = "sqlite_sequence";
+
         public string GetVersion()
         {
             const string connectionString = "Data Source=:memory:";
@@ -28,7 +31,11 @@ namespace RunSQL.Services
             const string commandText = @"SELECT name FROM sqlite_master WHERE type='table'";
             using var reader = ExecuteReader(commandText, connectionString);
             while (reader.Read())
-                yield return reader.GetString(0);
+            {
+                var name = reader.GetString(0);
+                if (!name.Equals(sqliteSequence, StringComparison.InvariantCultureIgnoreCase))
+                    yield return name;
+            }
         }
 
         private static SQLiteConnection CreateConnection(string connectionString) =>
