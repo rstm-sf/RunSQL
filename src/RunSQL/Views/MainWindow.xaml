@@ -8,13 +8,24 @@
         Width="400" Height="400"
         Title="RunSQL">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Classes="h1" Margin="0 12 0 6">
-            SELECT name FROM sqlite_master WHERE type='table'
-        </TextBlock>
-        <DataGrid Name="dataGrid" IsReadOnly="True" Items="{Binding Items}" Margin="0 6 0 12">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Table Name" Binding="{Binding Path=.}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ScrollViewer DockPanel.Dock="Left" Margin="12 12 6 12">
+            <ItemsControl Items="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Path=.}" Margin="2" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <DockPanel Margin="6 12 12 12">
+            <TextBlock DockPanel.Dock="Top" Classes="h1" Margin="0 0 0 6">
+                SELECT name FROM sqlite_master WHERE type='table'
+            </TextBlock>
+            <DataGrid Name="dataGrid" IsReadOnly="True" Items="{Binding Items}" Margin="0 6 0 0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Table Name" Binding="{Binding Path=.}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </DockPanel>
 </Window>
