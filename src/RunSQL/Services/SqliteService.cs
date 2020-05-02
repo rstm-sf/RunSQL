@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using RunSQL.Models;
 
 namespace RunSQL.Services
 {
@@ -36,6 +37,33 @@ namespace RunSQL.Services
                 if (!name.Equals(sqliteSequence, StringComparison.InvariantCultureIgnoreCase))
                     yield return name;
             }
+        }
+
+        public Table GetResult(string commandText, string connectionString)
+        {
+            using var reader = ExecuteReader(commandText, connectionString);
+
+            var headers = new List<string>();
+            for (var i = 0; i < reader.FieldCount; ++i)
+                headers.Add(reader.GetName(i));
+
+            var rows = new List<TableRow>();
+            while (reader.Read())
+            {
+                var fields = new List<object>();
+                for (var i = 0; i < reader.FieldCount; ++i)
+                    fields.Add(reader.GetValue(i));
+                rows.Add(new TableRow
+                {
+                    Fields = fields,
+                });
+            }
+
+            return new Table
+            {
+                Headers = headers,
+                Rows = rows,
+            };
         }
 
         private static SQLiteConnection CreateConnection(string connectionString) =>
