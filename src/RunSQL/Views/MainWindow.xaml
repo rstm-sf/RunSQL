@@ -20,7 +20,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <StackPanel Margin="6 12 12 12">
+        <DockPanel Margin="6 12 12 12">
             <TextBox DockPanel.Dock="Top"
                      Text="{Binding CommandText}"
                      AcceptsReturn="False"
@@ -28,10 +28,13 @@
                      Margin="0 0 0 6" />
             <Button Command="{Binding Run}"
                     Content="Run"
-                    Margin="0 6 0 6" />
+                    Margin="0 6 0 6"
+                    DockPanel.Dock="Top" />
             <TextBlock Text="{Binding ErrorMessage}"
                        IsVisible="{Binding !IsVisibleDataGrid}"
-                       Foreground="Red" />
+                       Foreground="Red"
+                       DockPanel.Dock="Top"
+                       Margin="0 6 0 0" />
             <DataGrid Name="dataGrid"
                       Items="{Binding Table.Rows}"
                       IsReadOnly="True"
@@ -39,7 +42,8 @@
                       IsVisible="{Binding IsVisibleDataGrid}"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
+                      DockPanel.Dock="Bottom"
                       Margin="0 6 0 0" />
-        </StackPanel>
+        </DockPanel>
     </DockPanel>
 </Window>
