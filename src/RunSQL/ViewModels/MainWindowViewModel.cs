@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace RunSQL.ViewModels
         private string _commandText;
 
         private Table _table;
+
+        private string _errorMessage;
 
         public IReadOnlyList<string> TableNames { get; }
 
@@ -39,6 +42,18 @@ namespace RunSQL.ViewModels
             }
         }
 
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public bool IsVisibleDataGrid => string.IsNullOrEmpty(ErrorMessage);
+
         public DelegateCommand Run { get; }
 
         public DelegateCommand TableNameClick { get; }
@@ -48,13 +63,27 @@ namespace RunSQL.ViewModels
             TableNames = GetTableNames();
 
             Run = new DelegateCommand(
-                parameter => Table = GetCommandResult(),
+                parameter =>
+                {
+                    try
+                    {
+                        Table = GetCommandResult();
+                        ErrorMessage = string.Empty;
+                    }
+                    catch (Exception e)
+                    {
+                        Table = Table.Empty;
+                        ErrorMessage = e.Message;
+                    }
+                },
                 parameter => !string.IsNullOrWhiteSpace(CommandText));
 
             TableNameClick = new DelegateCommand(parameter =>
             {
                 CommandText = $"SELECT * FROM {parameter};";
             });
+
+            ErrorMessage = " "; // for unvisible datagrid when start
 
             PropertyChanged += OnPropertyChanged();
         }
@@ -69,8 +98,15 @@ namespace RunSQL.ViewModels
         private PropertyChangedEventHandler OnPropertyChanged() =>
             (sender, args) =>
             {
-                if (args.PropertyName == nameof(CommandText))
-                    Run.RaiseCanExecuteChanged();
+                switch (args.PropertyName)
+                {
+                    case nameof(CommandText):
+                        Run.RaiseCanExecuteChanged();
+                        break;
+                    case nameof(ErrorMessage):
+                        NotifyPropertyChanged(nameof(IsVisibleDataGrid));
+                        break;
+                }
             };
     }
 }

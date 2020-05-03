@@ -5,10 +5,17 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <RestoreSources>
+            https://api.nuget.org/v3/index.json;
+            https://www.myget.org/F/avalonia-ci/api/v2;
+        </RestoreSources>
+    </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.9.9" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.9" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.9.9" />
+        <PackageReference Include="Avalonia" Version="0.9.999-cibuild0007054-beta" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.999-cibuild0007054-beta" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0007054-beta" />
         <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112.2" />
     </ItemGroup>
 

@@ -29,10 +29,16 @@
             <Button Command="{Binding Run}"
                     Content="Run"
                     Margin="0 6 0 6" />
+            <TextBlock Text="{Binding ErrorMessage}"
+                       IsVisible="{Binding !IsVisibleDataGrid}"
+                       Foreground="Red" />
             <DataGrid Name="dataGrid"
                       Items="{Binding Table.Rows}"
                       IsReadOnly="True"
                       CanUserResizeColumns="True"
+                      IsVisible="{Binding IsVisibleDataGrid}"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
                       Margin="0 6 0 0" />
         </StackPanel>
     </DockPanel>
