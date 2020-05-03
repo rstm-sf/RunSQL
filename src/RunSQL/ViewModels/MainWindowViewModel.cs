@@ -41,6 +41,8 @@ namespace RunSQL.ViewModels
 
         public DelegateCommand Run { get; }
 
+        public DelegateCommand TableNameClick { get; }
+
         public MainWindowViewModel()
         {
             TableNames = GetTableNames();
@@ -48,6 +50,11 @@ namespace RunSQL.ViewModels
             Run = new DelegateCommand(
                 parameter => Table = GetCommandResult(),
                 parameter => !string.IsNullOrWhiteSpace(CommandText));
+
+            TableNameClick = new DelegateCommand(parameter =>
+            {
+                CommandText = $"SELECT * FROM {parameter};";
+            });
 
             PropertyChanged += OnPropertyChanged();
         }

@@ -12,7 +12,10 @@
             <ItemsControl Items="{Binding TableNames}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Path=.}" Margin="2" />
+                        <Button Content="{Binding Path=.}"
+                                Command="{Binding $parent[ItemsControl].DataContext.TableNameClick}"
+                                CommandParameter="{Binding Path=.}"
+                                Margin="2" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
