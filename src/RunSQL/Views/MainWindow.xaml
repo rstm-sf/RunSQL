@@ -5,7 +5,7 @@
         xmlns:views="clr-namespace:RunSQL.Views"
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="350"
         x:Class="RunSQL.Views.MainWindow"
-        Width="600" Height="400"
+        Width="800" Height="400"
         Title="RunSQL">
     <DockPanel>
         <ScrollViewer DockPanel.Dock="Left" Margin="12 12 6 12">
@@ -17,15 +17,20 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <DockPanel Margin="6 12 12 12">
-            <TextBlock Text="{Binding CommandText}"
-                       DockPanel.Dock="Top"
-                       Classes="h1"
-                       Margin="0 0 0 6" />
+        <StackPanel Margin="6 12 12 12">
+            <TextBox DockPanel.Dock="Top"
+                     Text="{Binding CommandText}"
+                     AcceptsReturn="False"
+                     Watermark="Enter your SQL script"
+                     Margin="0 0 0 6" />
+            <Button Command="{Binding Run}"
+                    Content="Run"
+                    Margin="0 6 0 6" />
             <DataGrid Name="dataGrid"
                       Items="{Binding Table.Rows}"
                       IsReadOnly="True"
+                      CanUserResizeColumns="True"
                       Margin="0 6 0 0" />
-        </DockPanel>
+        </StackPanel>
     </DockPanel>
 </Window>

@@ -9,7 +9,7 @@ namespace RunSQL.Services
 {
     internal class SqliteService
     {
-        private const string sqliteSequence = "sqlite_sequence";
+        private const string SqliteSequence = "sqlite_sequence";
 
         public string GetVersion()
         {
@@ -34,7 +34,7 @@ namespace RunSQL.Services
             while (reader.Read())
             {
                 var name = reader.GetString(0);
-                if (!name.Equals(sqliteSequence, StringComparison.InvariantCultureIgnoreCase))
+                if (!name.Equals(SqliteSequence, StringComparison.InvariantCultureIgnoreCase))
                     yield return name;
             }
         }
@@ -43,14 +43,14 @@ namespace RunSQL.Services
         {
             using var reader = ExecuteReader(commandText, connectionString);
 
-            var headers = new List<string>();
+            var headers = new List<string>(reader.FieldCount);
             for (var i = 0; i < reader.FieldCount; ++i)
                 headers.Add(reader.GetName(i));
 
             var rows = new List<TableRow>();
             while (reader.Read())
             {
-                var fields = new List<object>();
+                var fields = new List<object>(reader.FieldCount);
                 for (var i = 0; i < reader.FieldCount; ++i)
                     fields.Add(reader.GetValue(i));
                 rows.Add(new TableRow

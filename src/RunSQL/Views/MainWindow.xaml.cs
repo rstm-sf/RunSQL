@@ -30,7 +30,6 @@ namespace RunSQL.Views
             var viewModel = new MainWindowViewModel();
             DataContext = viewModel;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            CreateDataGridColumnsBinding(viewModel.Table);
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
