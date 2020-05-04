@@ -3,6 +3,16 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>8</LangVersion>
+        <IsPackable>False</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <Authors>RunSQL Contributors</Authors>
+        <Company>RunSQL Contributors</Company>
+        <Description>A simple cross-platform application for testing SQL queries</Description>
+        <Copyright>Copyright (c) 2020 RunSQL Contributors</Copyright>
     </PropertyGroup>
 
     <PropertyGroup>
