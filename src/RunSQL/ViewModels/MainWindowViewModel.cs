@@ -10,8 +10,6 @@ namespace RunSQL.ViewModels
 {
     internal class MainWindowViewModel : Observable
     {
-        private readonly string _connectionString = $"URI=file:{Constants.DbPath}";
-
         private readonly IDataService _dataService;
 
         private string _commandText;
@@ -91,11 +89,11 @@ namespace RunSQL.ViewModels
         }
 
         private List<string> GetTableNames() =>
-            _dataService.GetTableNames(_connectionString)
+            _dataService.GetTableNames()
                 .ToList();
 
         private Table GetCommandResult() =>
-            _dataService.GetResult(CommandText, _connectionString);
+            _dataService.GetResult(CommandText);
 
         private PropertyChangedEventHandler OnPropertyChanged() =>
             (sender, args) =>

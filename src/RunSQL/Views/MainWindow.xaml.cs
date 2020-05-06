@@ -28,7 +28,8 @@ namespace RunSQL.Views
 
         private void InitializeViewModel()
         {
-            var viewModel = new MainWindowViewModel(new SqliteService());
+            var connectionString = $"URI=file:{Constants.DbPath}";
+            var viewModel = new MainWindowViewModel(new SqliteService(connectionString));
             DataContext = viewModel;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }

@@ -5,8 +5,10 @@ namespace RunSQL.Services
 {
     internal interface IDataService
     {
-        IEnumerable<string> GetTableNames(string connectionString);
+        public string ConnectionString { get; }
 
-        Table GetResult(string commandText, string connectionString);
+        IEnumerable<string> GetTableNames();
+
+        Table GetResult(string commandText);
     }
 }
