@@ -7,7 +7,7 @@ using RunSQL.Models;
 
 namespace RunSQL.Services
 {
-    internal class SqliteService
+    internal class SqliteService : IDataService
     {
         private const string SqliteSequence = "sqlite_sequence";
 
