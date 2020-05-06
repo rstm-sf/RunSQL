@@ -10,9 +10,7 @@ namespace RunSQL.ViewModels
 {
     internal class MainWindowViewModel : Observable
     {
-        private readonly string _connectionString = $"URI=file:{Constants.DbPath}";
-
-        private static readonly SqliteService SqliteService = new SqliteService();
+        private readonly IDataService _dataService;
 
         private string _commandText;
 
@@ -58,8 +56,10 @@ namespace RunSQL.ViewModels
 
         public DelegateCommand TableNameClick { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IDataService dataService)
         {
+            _dataService = dataService;
+
             TableNames = GetTableNames();
 
             Run = new DelegateCommand(
@@ -89,11 +89,11 @@ namespace RunSQL.ViewModels
         }
 
         private List<string> GetTableNames() =>
-            SqliteService.GetTableNames(_connectionString)
+            _dataService.GetTableNames()
                 .ToList();
 
         private Table GetCommandResult() =>
-            SqliteService.GetResult(CommandText, _connectionString);
+            _dataService.GetResult(CommandText);
 
         private PropertyChangedEventHandler OnPropertyChanged() =>
             (sender, args) =>

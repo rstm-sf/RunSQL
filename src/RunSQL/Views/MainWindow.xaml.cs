@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 using RunSQL.Models;
+using RunSQL.Services;
 using RunSQL.ViewModels;
 
 namespace RunSQL.Views
@@ -27,7 +28,8 @@ namespace RunSQL.Views
 
         private void InitializeViewModel()
         {
-            var viewModel = new MainWindowViewModel();
+            var connectionString = $"URI=file:{Constants.DbPath}";
+            var viewModel = new MainWindowViewModel(new SqliteService(connectionString));
             DataContext = viewModel;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }

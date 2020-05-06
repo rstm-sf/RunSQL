@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -7,9 +7,16 @@ using RunSQL.Models;
 
 namespace RunSQL.Services
 {
-    internal class SqliteService
+    internal class SqliteService : IDataService
     {
         private const string SqliteSequence = "sqlite_sequence";
+
+        public string ConnectionString { get; }
+
+        public SqliteService(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
 
         public string GetVersion()
         {
@@ -21,16 +28,16 @@ namespace RunSQL.Services
             return version;
         }
 
-        public void CreateDatabase(string connectionString)
+        public void CreateDatabase()
         {
             var commandText = File.ReadAllText(Constants.CreateDbSqlPath);
-            ExecuteNonQuery(commandText, connectionString);
+            ExecuteNonQuery(commandText, ConnectionString);
         }
 
-        public IEnumerable<string> GetTableNames(string connectionString)
+        public IEnumerable<string> GetTableNames()
         {
             const string commandText = @"SELECT name FROM sqlite_master WHERE type='table'";
-            using var reader = ExecuteReader(commandText, connectionString);
+            using var reader = ExecuteReader(commandText, ConnectionString);
             while (reader.Read())
             {
                 var name = reader.GetString(0);
@@ -39,9 +46,9 @@ namespace RunSQL.Services
             }
         }
 
-        public Table GetResult(string commandText, string connectionString)
+        public Table GetResult(string commandText)
         {
-            using var reader = ExecuteReader(commandText, connectionString);
+            using var reader = ExecuteReader(commandText, ConnectionString);
 
             var headers = new List<string>(reader.FieldCount);
             for (var i = 0; i < reader.FieldCount; ++i)
