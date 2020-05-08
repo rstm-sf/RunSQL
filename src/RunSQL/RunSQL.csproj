@@ -7,21 +7,6 @@
         <IsPackable>False</IsPackable>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <VersionPrefix>0.1.0</VersionPrefix>
-        <Authors>RunSQL Contributors</Authors>
-        <Company>RunSQL Contributors</Company>
-        <Description>A simple cross-platform application for testing SQL queries</Description>
-        <Copyright>Copyright (c) 2020 RunSQL Contributors</Copyright>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <RestoreSources>
-            https://api.nuget.org/v3/index.json;
-            https://www.myget.org/F/avalonia-ci/api/v2;
-        </RestoreSources>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.9.999-cibuild0007107-beta" />
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.999-cibuild0007107-beta" />
