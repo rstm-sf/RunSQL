@@ -88,9 +88,18 @@ namespace RunSQL.ViewModels
             PropertyChanged += OnPropertyChanged();
         }
 
-        private List<string> GetTableNames() =>
-            _dataService.GetTableNames()
-                .ToList();
+        private List<string> GetTableNames()
+        {
+            try
+            {
+                return _dataService.GetTableNames()
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<string>();
+            }
+        }
 
         private Table GetCommandResult() =>
             _dataService.GetResult(CommandText);
