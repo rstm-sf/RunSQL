@@ -1,7 +1,6 @@
 using System.IO;
 using System.Reflection;
 using Avalonia;
-using Avalonia.Logging.Serilog;
 
 namespace RunSQL
 {
