@@ -23,31 +23,19 @@ namespace RunSQL.ViewModels
         public string CommandText
         {
             get => _commandText;
-            set
-            {
-                _commandText = value;
-                NotifyPropertyChanged();
-            }
+            set => Update(ref _commandText, value);
         }
 
         public Table Table
         {
             get => _table;
-            set
-            {
-                _table = value;
-                NotifyPropertyChanged();
-            }
+            set => Update(ref _table, value);
         }
 
         public string ErrorMessage
         {
             get => _errorMessage;
-            set
-            {
-                _errorMessage = value;
-                NotifyPropertyChanged();
-            }
+            set => Update(ref _errorMessage, value);
         }
 
         public bool IsVisibleDataGrid => string.IsNullOrEmpty(ErrorMessage);

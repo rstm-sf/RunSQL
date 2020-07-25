@@ -9,5 +9,16 @@ namespace RunSQL.Models
 
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        protected bool Update<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(field, value))
+                return false;
+
+            field = value;
+            NotifyPropertyChanged(propertyName);
+
+            return true;
+        }
     }
 }
