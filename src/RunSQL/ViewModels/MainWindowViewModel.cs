@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using RunSQL.Commands;
 using RunSQL.Models;
 using RunSQL.Services;
 
 namespace RunSQL.ViewModels
 {
-    internal class MainWindowViewModel : Observable
+    internal class MainWindowViewModel : ViewModelBase
     {
         private readonly IDataService _dataService;
 
@@ -81,6 +82,7 @@ namespace RunSQL.ViewModels
             try
             {
                 return _dataService.GetTableNames()
+                    .ToEnumerable()
                     .ToList();
             }
             catch (Exception ex)
