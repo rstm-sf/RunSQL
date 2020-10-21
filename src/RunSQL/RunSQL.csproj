@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
+        <OutputType>WinExe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <LangVersion>8</LangVersion>
         <IsPackable>False</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.0-preview4" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0-preview4" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview3" />
+        <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0-preview5" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
         <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
     </ItemGroup>
 
