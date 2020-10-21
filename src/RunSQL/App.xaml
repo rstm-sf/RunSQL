@@ -4,6 +4,6 @@
              x:Class="RunSQL.App">
   <Application.Styles>
     <StyleInclude Source="avares://Avalonia.Themes.Fluent/Accents/FluentLight.xaml" />
-    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml" />
+    <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
   </Application.Styles>
 </Application>
