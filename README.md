@@ -4,7 +4,7 @@
 
 ## About
 
-RunSQL is a simple cross-platform application for testing SQL queries.
+RunSQL is a simple cross-platform application for testing SQL select queries.
 
 Supported database servers:
 
