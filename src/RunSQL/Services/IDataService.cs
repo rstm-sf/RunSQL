@@ -1,13 +1,13 @@
-using System.Collections.Generic;
+using System;
 using RunSQL.Models;
 
 namespace RunSQL.Services
 {
     internal interface IDataService
     {
-        public string ConnectionString { get; }
+        string ConnectionString { get; }
 
-        IEnumerable<string> GetTableNames();
+        IObservable<string> GetTableNames();
 
         Table GetResult(string commandText);
     }

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace RunSQL.Models
 {
-    internal class Observable : INotifyPropertyChanged
+    internal class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

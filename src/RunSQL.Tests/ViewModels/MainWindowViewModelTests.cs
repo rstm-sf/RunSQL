@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using Moq;
 using RunSQL.Models;
 using RunSQL.Services;
@@ -40,7 +41,7 @@ namespace RunSQL.Tests.ViewModels
         {
             var dataServiceMock = new Mock<IDataService>();
             dataServiceMock.Setup(x => x.GetTableNames())
-                .Returns(TableNames);
+                .Returns(TableNames.ToObservable());
             dataServiceMock.Setup(x => x.GetResult(CommandTextResultEmpty))
                 .Returns(Table.Empty);
             dataServiceMock.Setup(x => x.GetResult(CommandTextResultThrowException))

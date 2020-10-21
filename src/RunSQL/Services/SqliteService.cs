@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
+using System.Reactive.Linq;
 using RunSQL.Models;
 
 namespace RunSQL.Services
@@ -34,17 +35,20 @@ namespace RunSQL.Services
             ExecuteNonQuery(commandText, ConnectionString);
         }
 
-        public IEnumerable<string> GetTableNames()
-        {
-            const string commandText = @"SELECT name FROM sqlite_master WHERE type='table'";
-            using var reader = ExecuteReader(commandText, ConnectionString);
-            while (reader.Read())
-            {
-                var name = reader.GetString(0);
-                if (!name.Equals(SqliteSequence, StringComparison.InvariantCultureIgnoreCase))
-                    yield return name;
-            }
-        }
+        public IObservable<string> GetTableNames() =>
+            Observable.Create<string>(
+                async obs =>
+                {
+                    using var reader = ExecuteReader(
+                        @"SELECT name FROM sqlite_master WHERE type='table'",
+                        ConnectionString);
+                    while (await reader.ReadAsync())
+                    {
+                        var name = reader.GetString(0);
+                        if (!name.Equals(SqliteSequence, StringComparison.OrdinalIgnoreCase))
+                            obs.OnNext(name);
+                    }
+                });
 
         public Table GetResult(string commandText)
         {
