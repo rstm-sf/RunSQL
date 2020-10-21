@@ -15,6 +15,7 @@
                         <Button Content="{Binding Path=.}"
                                 Command="{Binding $parent[ItemsControl].DataContext.TableNameClick}"
                                 CommandParameter="{Binding Path=.}"
+                                HorizontalAlignment="Stretch"
                                 Margin="2" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -29,7 +30,8 @@
             <Button Command="{Binding Run}"
                     Content="Run"
                     Margin="0 6 0 6"
-                    DockPanel.Dock="Top" />
+                    DockPanel.Dock="Top"
+                    HorizontalAlignment="Stretch" />
             <TextBlock Text="{Binding ErrorMessage}"
                        IsVisible="{Binding !IsVisibleDataGrid}"
                        Foreground="Red"
