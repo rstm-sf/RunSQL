@@ -1,11 +1,17 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunSQL", "src\RunSQL\RunSQL.csproj", "{AAAA5FC2-60F6-4EF9-9366-4C44CB48A805}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunSQL", "src\RunSQL\RunSQL.csproj", "{AAAA5FC2-60F6-4EF9-9366-4C44CB48A805}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunSQL.Tests", "src\RunSQL.Tests\RunSQL.Tests.csproj", "{86B333AA-E9A5-4174-8EA7-DDA818C89036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunSQL.Tests", "src\RunSQL.Tests\RunSQL.Tests.csproj", "{86B333AA-E9A5-4174-8EA7-DDA818C89036}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{44B756BB-669B-4BF1-8911-18E25942965B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
