@@ -1,6 +1,12 @@
 <Project>
 
     <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <VersionPrefix>0.1.0</VersionPrefix>
         <Authors>RunSQL Contributors</Authors>
         <Company>RunSQL Contributors</Company>
