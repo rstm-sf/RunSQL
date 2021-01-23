@@ -5,10 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0-preview5" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
-        <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.1" />
+        <PackageReference Include="Avalonia" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0"
+                          Condition=" '$(Configuration)' == 'Debug' " />
+        <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
     </ItemGroup>
 
     <ItemGroup>
