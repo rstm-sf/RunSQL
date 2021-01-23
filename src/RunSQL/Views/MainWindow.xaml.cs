@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
@@ -19,6 +20,10 @@ namespace RunSQL.Views
             _dataGrid = this.FindControl<DataGrid>("dataGrid");
 
             InitializeViewModel();
+
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         private void InitializeComponent()
