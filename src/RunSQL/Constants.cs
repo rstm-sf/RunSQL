@@ -8,7 +8,8 @@ namespace RunSQL
 
         public static readonly string CreateDbSqlFileName = "Chinook_Sqlite_AutoIncrementPKs.sql";
 
-        public static readonly string DbDirectory = Path.Combine("Database");
+        public static readonly string DbDirectory = Path.Combine(
+            Path.GetDirectoryName(typeof(Services.SqliteService).Assembly.Location), "Database");
 
         public static readonly string DbPath = Path.Combine(DbDirectory, DbFileName);
 
