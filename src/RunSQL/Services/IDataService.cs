@@ -3,7 +3,7 @@ using RunSQL.Models;
 
 namespace RunSQL.Services
 {
-    internal interface IDataService
+    public interface IDataService
     {
         string ConnectionString { get; }
 

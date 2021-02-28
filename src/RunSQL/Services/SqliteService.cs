@@ -24,7 +24,7 @@ namespace RunSQL.Services
             const string connectionString = "Data Source=:memory:";
             const string commandText = "SELECT SQLITE_VERSION()";
 
-            var version = ExecuteScalar(commandText, connectionString).ToString();
+            var version = ExecuteScalar(commandText, connectionString).ToString()!;
 
             return version;
         }
@@ -39,7 +39,7 @@ namespace RunSQL.Services
             Observable.Create<string>(
                 async obs =>
                 {
-                    using var reader = ExecuteReader(
+                    await using var reader = ExecuteReader(
                         @"SELECT name FROM sqlite_master WHERE type='table'",
                         ConnectionString);
                     while (await reader.ReadAsync())

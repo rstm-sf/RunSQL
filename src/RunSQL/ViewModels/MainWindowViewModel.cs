@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
-using RunSQL.Commands;
+using ReactiveUI;
 using RunSQL.Models;
 using RunSQL.Services;
 
 namespace RunSQL.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private readonly IDataService _dataService;
 
@@ -24,26 +24,26 @@ namespace RunSQL.ViewModels
         public string CommandText
         {
             get => _commandText;
-            set => Update(ref _commandText, value);
+            set => this.RaiseAndSetIfChanged(ref _commandText, value);
         }
 
         public Table Table
         {
             get => _table;
-            set => Update(ref _table, value);
+            set => this.RaiseAndSetIfChanged(ref _table, value);
         }
 
         public string ErrorMessage
         {
             get => _errorMessage;
-            set => Update(ref _errorMessage, value);
+            private set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
         }
 
         public bool IsVisibleDataGrid => string.IsNullOrEmpty(ErrorMessage);
 
-        public DelegateCommand Run { get; }
+        public ReactiveCommand<Unit, Unit> Run { get; }
 
-        public DelegateCommand TableNameClick { get; }
+        public ReactiveCommand<string, Unit> TableNameClick { get; }
 
         public MainWindowViewModel(IDataService dataService)
         {
@@ -51,8 +51,15 @@ namespace RunSQL.ViewModels
 
             TableNames = GetTableNames();
 
-            Run = new DelegateCommand(
-                parameter =>
+            _table = Table.Empty;
+            _commandText = string.Empty;
+            _errorMessage = " ";
+
+            this.WhenAnyValue(x => x.ErrorMessage)
+                .Subscribe(_ => this.RaisePropertyChanged(nameof(IsVisibleDataGrid)));
+
+            Run = ReactiveCommand.Create(
+                () =>
                 {
                     try
                     {
@@ -65,16 +72,12 @@ namespace RunSQL.ViewModels
                         ErrorMessage = e.Message;
                     }
                 },
-                parameter => !string.IsNullOrWhiteSpace(CommandText));
+                this.WhenAnyValue(x => x.CommandText, x => !string.IsNullOrWhiteSpace(x)));
 
-            TableNameClick = new DelegateCommand(parameter =>
+            TableNameClick = ReactiveCommand.Create((string parameter) =>
             {
                 CommandText = $"SELECT * FROM {parameter};";
             });
-
-            ErrorMessage = " "; // for unvisible datagrid when start
-
-            PropertyChanged += OnPropertyChanged();
         }
 
         private List<string> GetTableNames()
@@ -91,21 +94,6 @@ namespace RunSQL.ViewModels
             }
         }
 
-        private Table GetCommandResult() =>
-            _dataService.GetResult(CommandText);
-
-        private PropertyChangedEventHandler OnPropertyChanged() =>
-            (sender, args) =>
-            {
-                switch (args.PropertyName)
-                {
-                    case nameof(CommandText):
-                        Run.RaiseCanExecuteChanged();
-                        break;
-                    case nameof(ErrorMessage):
-                        NotifyPropertyChanged(nameof(IsVisibleDataGrid));
-                        break;
-                }
-            };
+        private Table GetCommandResult() => _dataService.GetResult(CommandText);
     }
 }

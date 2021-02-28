@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using RunSQL.Services;
+using RunSQL.ViewModels;
 using RunSQL.Views;
 
 namespace RunSQL
@@ -18,7 +20,10 @@ namespace RunSQL
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(new SqliteService($"URI=file:{Constants.DbPath}"))
+                };
             }
         }
     }

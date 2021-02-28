@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Moq;
 using RunSQL.Models;
@@ -11,6 +12,8 @@ namespace RunSQL.Tests.ViewModels
 {
     public class MainWindowViewModelTests
     {
+        private CompositeDisposable? _disposable = new();
+
         private const string CommandTextResultEmpty = nameof(CommandTextResultEmpty);
         private const string CommandTextResultThrowException = nameof(CommandTextResultThrowException);
 
@@ -50,7 +53,7 @@ namespace RunSQL.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldStartsAppWithTableNamesEqualsSetnames()
+        public void ShouldStartsAppWithTableNamesEqualsSetNames()
         {
             for (var i = 0; i < TableNames.Count; ++i)
                 Assert.Equal(TableNames[i], _viewModel.TableNames[i]);
@@ -67,7 +70,7 @@ namespace RunSQL.Tests.ViewModels
         public void ShouldGetResultAsEmptyTableAndEmptyErrorMessage()
         {
             _viewModel.CommandText = CommandTextResultEmpty;
-            _viewModel.Run.Execute(null);
+            _viewModel.Run.Execute().Subscribe().DisposeWith(_disposable!);
             Assert.Equal(Table.Empty, _viewModel.Table);
             Assert.Equal(string.Empty, _viewModel.ErrorMessage);
         }
@@ -76,7 +79,7 @@ namespace RunSQL.Tests.ViewModels
         public void ShouldGetResultAsEmptyTableAndNonEmptyErrorMessage()
         {
             _viewModel.CommandText = CommandTextResultThrowException;
-            _viewModel.Run.Execute(null);
+            _viewModel.Run.Execute().Subscribe().DisposeWith(_disposable!);
             Assert.Equal(Table.Empty, _viewModel.Table);
             Assert.Equal(ErrorMessage, _viewModel.ErrorMessage);
         }
@@ -86,8 +89,14 @@ namespace RunSQL.Tests.ViewModels
         public void ShouldTableNameClickPassedSelectAllFromTableQuery(string tableName)
         {
             var commandText = $"SELECT * FROM {tableName};";
-            _viewModel.TableNameClick.Execute(tableName);
+            _viewModel.TableNameClick.Execute(tableName).Subscribe().DisposeWith(_disposable!);
             Assert.Equal(commandText, _viewModel.CommandText);
+        }
+
+        ~MainWindowViewModelTests()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
         }
     }
 }

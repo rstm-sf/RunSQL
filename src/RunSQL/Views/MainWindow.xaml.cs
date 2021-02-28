@@ -1,26 +1,23 @@
-using System.ComponentModel;
+using System.Reactive;
+using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using ReactiveUI;
 using RunSQL.Models;
-using RunSQL.Services;
 using RunSQL.ViewModels;
 
 namespace RunSQL.Views
 {
-    public class MainWindow : Window
+    public class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
-        private readonly DataGrid _dataGrid;
+        private DataGrid DataGrid => this.FindControl<DataGrid>("dataGrid");
 
         public MainWindow()
         {
             InitializeComponent();
-
-            _dataGrid = this.FindControl<DataGrid>("dataGrid");
-
-            InitializeViewModel();
-
 #if DEBUG
             this.AttachDevTools();
 #endif
@@ -28,36 +25,22 @@ namespace RunSQL.Views
 
         private void InitializeComponent()
         {
+            this.WhenActivated(disposables =>
+            {
+                this.WhenAnyValue(v => v.ViewModel.Table)
+                    .Subscribe(Observer.Create<Table>(table =>
+                    {
+                        DataGrid.Columns.Clear();
+                        for (var i = 0; i < table.Headers.Count; ++i)
+                            DataGrid.Columns.Add(new DataGridTextColumn
+                            {
+                                Header = table.Headers[i],
+                                Binding = new Binding($"{nameof(TableRow.Fields)}[{i}]", BindingMode.OneWay),
+                            });
+                    }))
+                    .DisposeWith(disposables);
+            });
             AvaloniaXamlLoader.Load(this);
-        }
-
-        private void InitializeViewModel()
-        {
-            var connectionString = $"URI=file:{Constants.DbPath}";
-            var viewModel = new MainWindowViewModel(new SqliteService(connectionString));
-            DataContext = viewModel;
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(MainWindowViewModel.Table))
-                CreateDataGridColumnsBinding(((MainWindowViewModel)DataContext).Table);
-        }
-
-        private void CreateDataGridColumnsBinding(Table table)
-        {
-            _dataGrid.BeginEdit();
-
-            _dataGrid.Columns.Clear();
-            for (var i = 0; i < table.Headers.Count; ++i)
-                _dataGrid.Columns.Add(new DataGridTextColumn
-                {
-                    Header = table.Headers[i],
-                    Binding = new Binding($"{nameof(TableRow.Fields)}[{i}]", BindingMode.OneWay),
-                });
-
-            _dataGrid.CommitEdit();
         }
     }
 }

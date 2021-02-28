@@ -2,8 +2,13 @@ using System.Collections.Generic;
 
 namespace RunSQL.Models
 {
-    internal class TableRow
+    public class TableRow
     {
-        public IReadOnlyList<object> Fields { get; set; }
+        public IReadOnlyList<object> Fields { get; init; }
+
+        public TableRow()
+        {
+            Fields = new object[0];
+        }
     }
 }
