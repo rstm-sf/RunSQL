@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <AvaloniaVersion>0.10.0</AvaloniaVersion>
+        <OutputType Condition=" '$(Configuration)' == 'Debug' ">Exe</OutputType>
+        <OutputType Condition=" '$(Configuration)' != 'Debug' ">WinExe</OutputType>
+        <AvaloniaVersion>0.10.6</AvaloniaVersion>
     </PropertyGroup>
 
     <ItemGroup>
